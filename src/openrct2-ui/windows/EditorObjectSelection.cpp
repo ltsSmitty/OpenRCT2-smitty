@@ -35,8 +35,8 @@
 #include <openrct2/platform/Platform.h>
 #include <openrct2/ride/RideData.h>
 #include <openrct2/scenario/Scenario.h>
+#include <openrct2/scenes/title/TitleScene.h>
 #include <openrct2/sprites.h>
-#include <openrct2/title/TitleScreen.h>
 #include <openrct2/util/Util.h>
 #include <openrct2/windows/Intent.h>
 #include <string>
@@ -328,7 +328,7 @@ static std::vector<Widget> _window_editor_object_selection_widgets = {
 
         void OnUpdate() override
         {
-            if (gCurrentTextBox.window.classification == classification && gCurrentTextBox.window.number == number)
+            if (GetCurrentTextBox().window.classification == classification && GetCurrentTextBox().window.number == number)
             {
                 WindowUpdateTextboxCaret();
                 WidgetInvalidate(*this, WIDX_FILTER_TEXT_BOX);
@@ -368,7 +368,9 @@ static std::vector<Widget> _window_editor_object_selection_widgets = {
                     {
                         GameNotifyMapChange();
                         GameUnloadScripts();
-                        TitleLoad();
+
+                        auto* context = OpenRCT2::GetContext();
+                        context->SetActiveScene(context->GetTitleScene());
                     }
                     break;
                 case WIDX_FILTER_RIDE_TAB_ALL:
@@ -422,7 +424,7 @@ static std::vector<Widget> _window_editor_object_selection_widgets = {
                     break;
                 }
                 case WIDX_FILTER_TEXT_BOX:
-                    WindowStartTextbox(*this, widgetIndex, STR_STRING, _filter_string, sizeof(_filter_string));
+                    WindowStartTextbox(*this, widgetIndex, _filter_string, sizeof(_filter_string));
                     break;
                 case WIDX_FILTER_CLEAR_BUTTON:
                     std::fill_n(_filter_string, sizeof(_filter_string), 0x00);

@@ -29,6 +29,7 @@
 #include <openrct2/localisation/Formatter.h>
 #include <openrct2/localisation/Localisation.h>
 #include <openrct2/management/Finance.h>
+#include <openrct2/peep/PeepAnimationData.h>
 #include <openrct2/sprites.h>
 #include <openrct2/util/Util.h>
 #include <openrct2/windows/Intent.h>
@@ -197,7 +198,6 @@ static Widget _staffListWidgets[] = {
                 // Enable highlighting of these staff members in map window
                 if (WindowFindByClass(WindowClass::Map) != nullptr)
                 {
-                    gWindowMapFlashingFlags |= MapFlashingFlags::StaffListOpen;
                     for (auto peep : EntityList<Staff>())
                     {
                         EntitySetFlashing(peep, false);

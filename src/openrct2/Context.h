@@ -84,6 +84,7 @@ namespace OpenRCT2
 
     struct IPlatformEnvironment;
     struct IReplayManager;
+    struct IScene;
 
     namespace Audio
     {
@@ -142,6 +143,16 @@ namespace OpenRCT2
 #ifndef DISABLE_NETWORK
         virtual NetworkBase& GetNetwork() abstract;
 #endif
+
+        virtual IScene* GetLoadingScene() abstract;
+        virtual IScene* GetIntroScene() abstract;
+        virtual IScene* GetTitleScene() abstract;
+        virtual IScene* GetGameScene() abstract;
+        virtual IScene* GetEditorScene() abstract;
+
+        virtual IScene* GetActiveScene() abstract;
+        virtual void SetActiveScene(IScene* screen) abstract;
+
         virtual int32_t RunOpenRCT2(int argc, const char** argv) abstract;
 
         virtual bool Initialise() abstract;
@@ -214,7 +225,6 @@ WindowBase* ContextShowError(StringId title, StringId message, const class Forma
 WindowBase* ContextOpenIntent(Intent* intent);
 void ContextBroadcastIntent(Intent* intent);
 void ContextForceCloseWindowByClass(WindowClass wc);
-void ContextUpdateMapTooltip();
 void ContextHandleInput();
 void ContextInputHandleKeyboard(bool isTitle);
 void ContextQuit();

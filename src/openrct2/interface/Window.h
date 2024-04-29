@@ -31,7 +31,6 @@
 struct DrawPixelInfo;
 struct WindowBase;
 struct TrackDesignFileRef;
-struct TextInputSession;
 struct ScenarioIndexEntry;
 struct WindowCloseModifier;
 
@@ -52,11 +51,6 @@ constexpr uint8_t kDropdownHeight = 12;
 constexpr uint16_t kTextInputSize = 1024;
 constexpr uint16_t kTopToolbarHeight = 27;
 
-extern u8string gTextBoxInput;
-extern int32_t gTextBoxFrameNo;
-extern bool gUsingWidgetTextBox;
-extern struct TextInputSession* gTextInput;
-
 using rct_windownumber = uint16_t;
 using WidgetIndex = int16_t;
 
@@ -72,7 +66,6 @@ struct WidgetIdentifier
     WidgetIndex widget_index;
 };
 
-extern WidgetIdentifier gCurrentTextBox;
 extern WindowCloseModifier gLastCloseModifier;
 
 using WidgetFlags = uint32_t;
@@ -489,22 +482,13 @@ enum class Tool
 using modal_callback = void (*)(int32_t result);
 using close_callback = void (*)();
 
-#define WINDOW_LIMIT_MIN 4
-#define WINDOW_LIMIT_MAX 64
-#define WINDOW_LIMIT_RESERVED 4 // Used to reserve room for the main viewport, toolbars, etc.
+constexpr int8_t kWindowLimitMin = 4;
+constexpr int8_t kWindowLimitMax = 64;
+constexpr int8_t kWindowLimitReserved = 4; // Used to reserve room for the main viewport, toolbars, etc.
 
 extern WindowBase* gWindowAudioExclusive;
 
 extern uint32_t gWindowUpdateTicks;
-namespace MapFlashingFlags
-{
-    constexpr uint16_t GuestListOpen = (1 << 0);
-    constexpr uint16_t FlashGuests = (1 << 1);
-    constexpr uint16_t StaffListOpen = (1 << 2);
-    constexpr uint16_t FlashStaff = (1 << 3);
-    constexpr uint16_t SwitchColour = (1 << 15); // Every couple ticks the colour switches
-} // namespace MapFlashingFlags
-extern uint16_t gWindowMapFlashingFlags;
 
 extern colour_t gCurrentWindowColours[4];
 
@@ -630,12 +614,6 @@ void TextinputCancel();
 
 void WindowMoveAndSnap(WindowBase& w, ScreenCoordsXY newWindowCoords, int32_t snapProximity);
 int32_t WindowCanResize(const WindowBase& w);
-
-void WindowStartTextbox(
-    WindowBase& call_w, WidgetIndex call_widget, StringId existing_text, const char* existing_args, int32_t maxLength);
-void WindowCancelTextbox();
-void WindowUpdateTextboxCaret();
-void WindowUpdateTextbox();
 
 bool WindowIsVisible(WindowBase& w);
 

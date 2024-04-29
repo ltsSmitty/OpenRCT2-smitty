@@ -41,8 +41,8 @@
 #include <openrct2/interface/InteractiveConsole.h>
 #include <openrct2/localisation/StringIds.h>
 #include <openrct2/platform/Platform.h>
+#include <openrct2/scenes/title/TitleSequencePlayer.h>
 #include <openrct2/scripting/ScriptEngine.h>
-#include <openrct2/title/TitleSequencePlayer.h>
 #include <openrct2/ui/UiContext.h>
 #include <openrct2/ui/WindowManager.h>
 #include <openrct2/world/Location.hpp>
@@ -140,6 +140,10 @@ public:
     void Tick() override
     {
         _inGameConsole.Update();
+
+        _windowManager->UpdateMapTooltip();
+
+        WindowDispatchUpdateAll();
     }
 
     void Draw(DrawPixelInfo& dpi) override
